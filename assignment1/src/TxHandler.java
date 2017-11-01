@@ -1,5 +1,8 @@
+import java.util.ArrayList;
+
 public class TxHandler {
 
+    private UTXOPool _current_utxoPool;
     /**
      * Creates a public ledger whose current UTXOPool (collection of unspent transaction outputs) is
      * {@code utxoPool}. This should make a copy of utxoPool by using the UTXOPool(UTXOPool uPool)
@@ -7,6 +10,7 @@ public class TxHandler {
      */
     public TxHandler(UTXOPool utxoPool) {
         // IMPLEMENT THIS
+        _current_utxoPool = new UTXOPool(utxoPool);
     }
 
     /**
@@ -20,6 +24,18 @@ public class TxHandler {
      */
     public boolean isValidTx(Transaction tx) {
         // IMPLEMENT THIS
+        for (int i = 0; i < tx.numOutputs(); ++i) {
+            if (! _current_utxoPool.contains(new UTXO(tx.getHash(), i))) {
+                return false;
+            }
+        }
+//        for (int i = 0; i < tx.numInputs(); ++i) {
+//            if (!Crypto.verifySignature(, tx.getRawDataToSign(i),tx.getInput(i).signature)) {
+//                return false;
+//            }
+//
+//        }
+        return true;
     }
 
     /**
@@ -29,6 +45,7 @@ public class TxHandler {
      */
     public Transaction[] handleTxs(Transaction[] possibleTxs) {
         // IMPLEMENT THIS
+        return null;
     }
 
 }
