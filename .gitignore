@@ -23,4 +23,5 @@ hs_err_pid*
 
 # custom
 /assignment1/.idea/*
+/assignment1/out/*
 

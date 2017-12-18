@@ -2,13 +2,13 @@
 // Distributed under the GNU GPL v2 software license
 
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 /**
  * Unit tests for {@link TxHandler#isValidTx(Transaction)}
  * <p>
