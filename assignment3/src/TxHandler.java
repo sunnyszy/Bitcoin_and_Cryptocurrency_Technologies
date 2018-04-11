@@ -4,7 +4,7 @@ import java.util.Set;
 
 public class TxHandler {
 
-    private UTXOPool _current_utxoPool;
+    private UTXOPool current_utxoPool;
     /**
      * Creates a public ledger whose current UTXOPool (collection of unspent transaction outputs) is
      * {@code utxoPool}. This should make a copy of utxoPool by using the UTXOPool(UTXOPool uPool)
@@ -12,7 +12,11 @@ public class TxHandler {
      */
     public TxHandler(UTXOPool utxoPool) {
         // IMPLEMENT THIS
-        _current_utxoPool = new UTXOPool(utxoPool);
+        current_utxoPool = new UTXOPool(utxoPool);
+    }
+
+    public UTXOPool getUTXOPool() {
+        return current_utxoPool;
     }
 
     /**
@@ -35,13 +39,13 @@ public class TxHandler {
                 return false;
             }
             seen_utxo.add(utxo);
-            if (! _current_utxoPool.contains(utxo)) {
+            if (! current_utxoPool.contains(utxo)) {
                 return false;
             }
-            if (!Crypto.verifySignature(_current_utxoPool.getTxOutput(utxo).address, tx.getRawDataToSign(i),tx.getInput(i).signature)) {
+            if (!Crypto.verifySignature(current_utxoPool.getTxOutput(utxo).address, tx.getRawDataToSign(i),tx.getInput(i).signature)) {
                 return false;
             }
-            sum_in += _current_utxoPool.getTxOutput(utxo).value;
+            sum_in += current_utxoPool.getTxOutput(utxo).value;
         }
 
         for (int i = 0; i < tx.numOutputs(); ++i) {
@@ -67,11 +71,11 @@ public class TxHandler {
             if (isValidTx(possibleTxs[i])) {
                 for (int j = 0; j < possibleTxs[i].numInputs(); j++) {
                     UTXO utxo = new UTXO(possibleTxs[i].getInput(j).prevTxHash, possibleTxs[i].getInput(j).outputIndex);
-                    _current_utxoPool.removeUTXO(utxo);
+                    current_utxoPool.removeUTXO(utxo);
                 }
                 for (int j = 0; j < possibleTxs[i].numOutputs(); j++) {
                     UTXO utxo = new UTXO(possibleTxs[i].getHash(), j);
-                    _current_utxoPool.addUTXO(utxo, possibleTxs[i].getOutput(j));
+                    current_utxoPool.addUTXO(utxo, possibleTxs[i].getOutput(j));
                 }
                 validTxs.add(i);
             }
